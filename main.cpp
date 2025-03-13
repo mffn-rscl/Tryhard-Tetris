@@ -23,6 +23,7 @@ struct Point
 
 } a[4],b[4];
 
+
 int main()
 {
 	RenderWindow window(VideoMode(580,640), "Tryhard Tetris",sf::Style::Titlebar | sf::Style::Close);
@@ -30,50 +31,82 @@ int main()
 	Texture tetramino_texture;
 	tetramino_texture.loadFromFile("textures/tetramino.png");
 
+	Sprite tetramino(tetramino_texture);
+	tetramino.setScale(0.2f, 0.2f);
+	tetramino.setTextureRect(IntRect(0, 0, 161, 161));
+
+	int dx = 0;
+	bool rotate = 0; 
+	float timer = 0, delay = 0.3f;
+
+	Clock fallingInterval;
 	while (window.isOpen())
-	{
+	{	
+		float time = fallingInterval.getElapsedTime().asSeconds();
+		fallingInterval.restart();
+		timer += time;
+
 		Event event;
+
 		while(window.pollEvent(event))
 		{
+			//close 
 			if (event.type == Event::Closed) window.close();
-		}
-		window.clear(Color(23, 22,34));
-		
-		Sprite tetramino(tetramino_texture);
-		tetramino.setScale(0.2f, 0.2f);
-	
-		int n = 3;
-		for (int i = 0; i < 4; i++)
-		{
-			a[i].x = figures[n][i] % 2;
-			a[i].y = figures[n][i] / 2;
+ 
 
-		/*
-			a[0]: (1, 1)
-			a[1]: (1, 2)
-			a[2]: (0, 2)
-			a[3]: (1, 3)
-		*/
+			if (event.type == Event::KeyPressed)
+			{
+				if (event.key.code == Keyboard::Space) rotate = true;
+				else if (event.key.code == Keyboard::Left) dx = -1;
+				else if (event.key.code == Keyboard::Right) dx = 1;
+			}
+
+			for (int i = 0; i < 4; i++) a[i].x +=dx;
+
+			if (rotate)
+			{
+				Point p = a[1];
+				for (int i = 0; i < 4; i++)
+				{
+					int x = a[i].y - p.y;
+					int y = a[i].x - p.x;
+					a[i].x = p.x - x;
+					a[i].y = p.y + y;
+				}
+				
+			}
+			if (timer > delay)
+			{
+				for (int i = 0; i < 4; i++) a[i].y += 1;
+				timer = 0;
+			}		
+
+			int n = 3;
+
+			if (a[0].x == 0)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					a[i].x = figures[n][i] %2;
+					a[i].y = figures[n][i] /2;
+				}
+
+			}
+			dx=0;
+			rotate = 0;
 		}
-		
+
+		window.clear(Color(23, 22,34));
+
 		for (int i = 0; i < 4; i++)
 		{	
-			tetramino.setTextureRect(IntRect(0, 0, 161, 161));
 			tetramino.setPosition(a[i].x * 32, a[i].y * 32);
-
-			/*
-				a[0]: (32, 32)
-				a[1]: (64, 64)
-				a[2]: (0, 64)
-				a[3]: (32, 96)
-			
-			*/
-
 			window.draw(tetramino);
-
 
 		}
 		
+
+	
 		window.display();
 	}
 	return 0;
