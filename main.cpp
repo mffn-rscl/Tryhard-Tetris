@@ -25,7 +25,7 @@ struct Point
 
 int main()
 {
-	RenderWindow window(VideoMode(580,640), "Adrew Shotgun",sf::Style::Titlebar | sf::Style::Close);
+	RenderWindow window(VideoMode(580,640), "Tryhard Tetris",sf::Style::Titlebar | sf::Style::Close);
 	
 	Texture tetramino_texture;
 	tetramino_texture.loadFromFile("textures/tetramino.png");
