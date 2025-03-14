@@ -93,7 +93,7 @@ int main()
 
 			}
 			dx=0;
-			rotate = 0;
+			rotate = false;
 		}
 
 		window.clear(Color(23, 22,34));
