@@ -35,17 +35,25 @@ int main()
 	tetramino.setScale(0.2f, 0.2f);
 	tetramino.setTextureRect(IntRect(0, 0, 161, 161));
 
-	int dx = 0;
-	bool rotate = 0; 
-	float timer = 0, delay = 0.3f;
+	int dx = 0; // left/right rotating
+	
+	bool rotate = 0; //  spining tetramino
+
+	float timer = 0, delay = 0.4f; // fall
 
 	Clock fallingInterval;
+
+	
+
+	// fall
+
+	
 	while (window.isOpen())
 	{	
+		
 		float time = fallingInterval.getElapsedTime().asSeconds();
 		fallingInterval.restart();
 		timer += time;
-
 		Event event;
 
 		while(window.pollEvent(event))
@@ -53,49 +61,48 @@ int main()
 			//close 
 			if (event.type == Event::Closed) window.close();
  
-
+			// spining with left/right rotation
 			if (event.type == Event::KeyPressed)
 			{
 				if (event.key.code == Keyboard::Space) rotate = true;
 				else if (event.key.code == Keyboard::Left) dx = -1;
 				else if (event.key.code == Keyboard::Right) dx = 1;
 			}
+		}
+		for (int i = 0; i < 4; i++) a[i].x +=dx;
 
-			for (int i = 0; i < 4; i++) a[i].x +=dx;
-
-			if (rotate)
+			//spining
+		if (rotate)
+		{
+			Point p = a[1];
+			for (int i = 0; i < 4; i++)
 			{
-				Point p = a[1];
-				for (int i = 0; i < 4; i++)
-				{
-					int x = a[i].y - p.y;
-					int y = a[i].x - p.x;
-					a[i].x = p.x - x;
-					a[i].y = p.y + y;
-				}
+				int x = a[i].y - p.y;
+				int y = a[i].x - p.x;
+				a[i].x = p.x - x;
+				a[i].y = p.y + y;
+			}
 				
-			}
-			if (timer > delay)
-			{
-				for (int i = 0; i < 4; i++) a[i].y += 1;
-				timer = 0;
-			}		
-
-			int n = 3;
-
-			if (a[0].x == 0)
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					a[i].x = figures[n][i] %2;
-					a[i].y = figures[n][i] /2;
-				}
-
-			}
-			dx=0;
-			rotate = false;
 		}
 
+		int n = 3;
+		if (a[0].x == 0)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				a[i].x = figures[n][i] %2;
+				a[i].y = figures[n][i] /2;
+			}
+		}		
+
+		dx=0;
+		rotate = 0;			
+		if (timer > delay)
+		{
+			for (int i = 0; i < 4; i++) a[i].y += 1;
+			timer = 0;
+		}
+		// out
 		window.clear(Color(23, 22,34));
 
 		for (int i = 0; i < 4; i++)
