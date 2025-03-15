@@ -89,7 +89,7 @@ int main()
 			}
 			
 		}
-		if(event.key.code == Keyboard::Down) delay = 0.08;
+		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.08;
 
 		///// rotation x /////
 		for (int i = 0; i < 4; i++){ b[i] = a[i]; a[i].x +=dx;	}
