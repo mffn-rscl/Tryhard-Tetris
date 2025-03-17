@@ -37,6 +37,11 @@ bool check()
 	}
 	return 1;
 }
+bool checkGameOver(Point a[]) 
+{
+    for (int i = 0; i < 4; i++) if (a[i].y < 0) return true;
+    return false;
+}
 
 int main()
 {
@@ -52,7 +57,7 @@ int main()
 
 	tetramino.setScale(0.2f, 0.2f);
 
-	int tetraminoColor = 1 + rand() % 3;
+	int tetraminoColor = 0;
 
 	int n= rand() % 7; // tetramino type
 
@@ -121,10 +126,12 @@ int main()
 			if(!check())
 			{
 
-
+				if(checkGameOver(b)) window.close();
+				
 				for (int i = 0; i < 4; i++)field[b[i].y][b[i].x] = tetraminoColor;
 				tetraminoColor =  1 + rand() % 3;
 				n = rand() % 7; 
+				
 				for (int i = 0; i < 4; i++)
 				{
 					a[i].x = figures[n][i] % 2;
@@ -150,7 +157,7 @@ int main()
 		dx=0; rotate = 0; delay = 0.3;
 
 		
-
+		// killing row
 		for (int i = 0; i < M; i++)
 		{
 			int filledRowCounter = 0;
@@ -174,7 +181,7 @@ int main()
 		
 		
 		
-		// out
+		// rendering
 		window.clear(Color(23, 22,34));
 		for (int i = 0; i < M; i++)
 		{
@@ -198,10 +205,9 @@ int main()
 			tetramino.setTextureRect(IntRect(161* tetraminoColor, 0, 161, 161));
 			tetramino.setPosition(a[i].x * 32, a[i].y * 32);
 			window.draw(tetramino);
-
 		}
 		
-	
+				
 		window.display();
 	}
 	return 0;
