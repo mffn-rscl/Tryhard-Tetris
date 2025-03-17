@@ -52,7 +52,7 @@ int main()
 
 	tetramino.setScale(0.2f, 0.2f);
 
-	int tetraminoColor = rand() % 3;
+	int tetraminoColor = 1 + rand() % 3;
 
 	int n= rand() % 7; // tetramino type
 
@@ -110,6 +110,7 @@ int main()
 			}
 				
 		}
+		if(!check()) for (int i = 0; i < 4; i++) {a[i] = b[i];} // out of boards
 
 
 		///// rotation y /////
@@ -122,7 +123,7 @@ int main()
 
 
 				for (int i = 0; i < 4; i++)field[b[i].y][b[i].x] = tetraminoColor;
-				tetraminoColor = 1 + rand() % 3;
+				tetraminoColor =  1 + rand() % 3;
 				n = rand() % 7; 
 				for (int i = 0; i < 4; i++)
 				{
