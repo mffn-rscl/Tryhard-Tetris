@@ -151,6 +151,26 @@ int main()
 
 		
 
+		for (int i = 0; i < M; i++)
+		{
+			int filledRowCounter = 0;
+			for (int j = 0; j < N; j++) {if(field[i][j] != 0) filledRowCounter++;}				
+			
+			if(filledRowCounter == M)
+			{
+				int currentRow = i;
+				for (int j = 0; j < N; j++) field[i][j] = 0;
+			
+				for (int j = i-1; j > 0; j--)
+				{
+					for (int k = 0; k < M; k++) field[currentRow][k]= field[j][k];
+					currentRow--;
+				}
+				
+				
+			}
+			
+		}
 		
 		
 		
