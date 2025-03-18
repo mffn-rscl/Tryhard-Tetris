@@ -57,7 +57,7 @@ int main()
 
 	tetramino.setScale(0.2f, 0.2f);
 
-	int tetraminoColor = 0;
+	int tetraminoColor = 1;
 
 	int n= rand() % 7; // tetramino type
 
